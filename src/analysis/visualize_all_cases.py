@@ -311,10 +311,8 @@ if __name__ == "__main__":
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     out = f"results/Networks_Heatmaps_{timestamp}"
     cases = [
-        {"file": "data/networks/hsa_hsa04115_graph.pkl", "title": "p53 Network (Cancer)"},
-        {"file": "data/networks/hsa_hsa04910_graph.pkl", "title": "Insulin Network (Diabetes)"},
-        {"file": "data/networks/mmu_mmu04110_graph.pkl", "title": "Cellular Cycle (Mouse)"},
-        {"file": "data/networks/hsa_hsa04110_graph.pkl", "title": "Cellular Cycle (Human)"}
+        {"file": "data/networks/hsa_hsa04115_graph.pkl", "title": "p53 Network (Cancer)"}
+
     ]
     run_network_visualizations(cases, out)
     print(f"\n Visualizations and exports saved successfully in '{out}/'")
