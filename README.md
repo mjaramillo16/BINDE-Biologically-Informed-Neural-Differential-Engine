@@ -24,8 +24,9 @@ This repository contains the source code, data engineering pipelines, and the ca
 
 This framework is part of the research submitted to the **Brazilian Symposium on Bioinformatics (BSB) 2026**. 
 
-If you use BINDE in your research, please cite:
-> Maria Leandra et. al. "A Grey-Box Neural ODE Framework for Causal Discovery and Multi-Omics Integration in Biological Networks." *BSB / Springer Lecture Notes in Bioinformatics.* 
+If you use this framework, please cite:
+
+Guateque Jaramillo, Maria Leandra. "Causal Modeling and Multi-Omics Integration in Biological Systems". 2026. Thesis (PhD in Informatics). Pontifical Catholic University of Rio de Janeiro (PUC-Rio).
 
 ---
 
@@ -55,9 +56,9 @@ pip install -r requirements.txt
 
 ---
 
-## Reproduction Pipeline (Thesis Results)
+## Reproduction Pipeline 
 
-To ensure full reproducibility of the thesis results, use the global orchestrator.
+To ensure full reproducibility of the results, use the global orchestrator.
 
 ### Option 1: One-Click Global Orchestrator (Recommended)
 
@@ -83,6 +84,37 @@ results/results_[TIMESTAMP]/
 
 ---
 
+### Option 2: Step-by-Step Execution
+
+#### Stage 1 — Model Fabrication (ETL & Training)
+
+```bash
+python3 experiments/run_case_a_cancer.py
+
+```
+#### Stage 2. Simulate Virtual Twin (Counterfactual XAI)
+
+Perform an *in silico* knockdown of the TP53 node to evaluate the continuous downstream attenuation of effector genes (e.g., CDKN1A/p21).
+
+```bash
+python3 experiments/Test_Gemeos_real_data.py
+```
+
+#### Stage 3 — Global Evaluation 
+
+```bash
+python3 experiments/run_benchmark_all.py
+```
+
+This stage:
+
+- Evaluates trained models  
+- Generates Rolling CV metrics  
+- Performs in silico causal knockdowns  
+- Renders annotated heatmaps (Louvain + GSEA)
+
+---
+
 
 **Core Dependencies:**
 
@@ -90,39 +122,6 @@ results/results_[TIMESTAMP]/
 * `bioservices` (for automated KEGG KGML parsing)
 * `networkx` & `python-louvain` (for topological diagnostics)
 * `pandas`, `numpy`, `scikit-learn` (for ETL and data normalization)
-
----
-
-## 🚀 Quickstart: TP53 Case Study (GSE25066)
-
-To demonstrate BINDE's capability to filter stochastic tumor noise, this repository includes the execution pipeline for the **TP53 signaling pathway (hsa04115)** using normalized microarray data (GSE25066).
-
-### 1. Build the Topological Graph
-
-Extracts the biological prior from KEGG and generates the binary mask:
-
-```bash
-python scripts/build_graph.py --pathway hsa04115 --output data/processed/mask.csv
-
-```
-
-### 2. Train the Hybrid Neural ODE
-
-Trains the continuous model utilizing the Hadamard mask. The script automatically applies $\log_2$ and Min-Max scaling to ensure Lipschitz continuity.
-
-```bash
-python scripts/train_model.py --data data/raw/GSE25066_matrix.csv --mask data/processed/mask.csv --epochs 150
-
-```
-
-### 3. Simulate Virtual Twin (Counterfactual XAI)
-
-Perform an *in silico* knockdown of the TP53 node to evaluate the continuous downstream attenuation of effector genes (e.g., CDKN1A/p21).
-
-```bash
-python scripts/simulate_twin.py --model checkpoints/binde_tp53.pt --knockdown TP53 --plot
-
-```
 
 ---
 
