@@ -25,20 +25,64 @@ This repository contains the source code, data engineering pipelines, and the ca
 This framework is part of the research submitted to the **Brazilian Symposium on Bioinformatics (BSB) 2026**. 
 
 If you use BINDE in your research, please cite:
-> *Authors (2026).* "A Grey-Box Neural ODE Framework for Causal Discovery and Multi-Omics Integration in Biological Networks." *BSB / Springer Lecture Notes in Bioinformatics.* 
+> Maria Leandra et. al. "A Grey-Box Neural ODE Framework for Causal Discovery and Multi-Omics Integration in Biological Networks." *BSB / Springer Lecture Notes in Bioinformatics.* 
 
 ---
 
 ## ⚙️ Installation & Setup
 
-Clone the repository and install the required dependencies. We recommend using a virtual environment.
+### Clone the repository
 
 ```bash
-git clone [[https://github.com/yourusername/BINDE.git](https://github.com/mjaramillo16/BINDE-Biologically-Informed-Neural-Differential-Engine)
+git clone https://github.com/mjaramillo16/BINDE-Biologically-Informed-Neural-Differential-Engine
 cd BINDE
+```
+
+### Create a virtual environment (recommended)
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate      # On Windows: .venv\Scripts\activate
+```
+
+### Install dependencies
+
+```bash
 pip install -r requirements.txt
+```
+
+> Ensure `gseapy` is installed for automated Gene Ontology annotation.
+
+---
+
+## Reproduction Pipeline (Thesis Results)
+
+To ensure full reproducibility of the thesis results, use the global orchestrator.
+
+### Option 1: One-Click Global Orchestrator (Recommended)
+
+```bash
+python3 reset_and_run.py
+```
+
+This will automatically:
+
+- Clean environment  
+- Download raw datasets  
+- Build KEGG biological graphs  
+- Train all Neural ODE models  
+- Execute benchmarking suite  
+- Simulate Virtual Twins  
+- Generate publication-ready plots  
+
+Outputs are saved in:
 
 ```
+results/results_[TIMESTAMP]/
+```
+
+---
+
 
 **Core Dependencies:**
 
@@ -82,26 +126,6 @@ python scripts/simulate_twin.py --model checkpoints/binde_tp53.pt --knockdown TP
 
 ---
 
-## 📂 Repository Structure
-
-```text
-BINDE/
-├── data/
-│   ├── raw/               # Raw expression matrices (e.g., GSE25066)
-│   └── processed/         # Aligned tensors and KEGG adjacency masks
-├── notebooks/             # Jupyter notebooks for EDA and heatmap visualizations
-├── src/
-│   ├── etl/               # Gene-centric harmonization and dimensional alignment
-│   ├── model/             # PyTorch implementation of the Masked Neural ODE
-│   └── evaluation/        # Rolling CV, MSE, and Pearson calculation metrics
-├── scripts/               # CLI executable scripts for the pipeline
-├── workflows/             # Nextflow configurations for pipeline orchestration
-├── requirements.txt       
-└── README.md
-
-```
-
----
 
 ## ✉️ Contact & Affiliation
 
